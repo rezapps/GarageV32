@@ -1,0 +1,80 @@
+@model GarageV32.Models.VTypeViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<p>
+    <a asp-action="Create">Park a vehicle</a>
+</p>
+<br>
+<form asp-controller="ParkedVehicles" asp-action="Index" method="get">
+    <p>
+        <select asp-for="VehicleCategory" asp-items="Model.Categories">
+            <option value="">All</option>
+        </select>
+        Title: <input type="text" name="SearchString" />
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+
+<br>
+<br>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ParkedVehicles![0].RegNr)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ParkedVehicles![0].Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ParkedVehicles![0].EnteryTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ParkedVehicles![0].VehicleTypeId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ParkedVehicles![0].SpotNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ParkedVehicles![0].GarageZoneId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ParkedVehicles!)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RegNr)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EnteryTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VehicleType.Image)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SpotNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GarageZone.Id)
+            </td>
+  
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
