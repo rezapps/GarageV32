@@ -63,7 +63,7 @@
                         <td class="col-sm-3">@vehicle.EnteryTime</td>
                          <td class="col-sm-3">
                             <img class="@vehicle.Color carImage"
-                                src="~/img/@(vehicle.Category).svg"
+                                src="~/img/@(vehicle.Category.ToLower()).svg"
                                 alt="@vehicle.Category)"
                             >
                          </td>
