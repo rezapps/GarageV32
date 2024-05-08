@@ -52,10 +52,10 @@
                 @Html.DisplayFor(modelItem => item.RegNr)
             </td>
             <td>
-            <img class="@Html.DisplayFor(modelItem => item.Color) carImage"
-                src="~/img/@(Html.DisplayFor(modelItem => item.Category)).svg"
-                alt="@Html.DisplayFor(modelItem => item.Category)">
-        </td>
+                <img class="@Html.DisplayFor(modelItem => item.Color) carImage"
+                    src="~/img/@(item.Category.ToLower()).svg"
+                    alt="@Html.DisplayFor(modelItem => item.Category)">
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.EnteryTime)
             </td>
