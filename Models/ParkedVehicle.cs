@@ -31,15 +31,17 @@ public class ParkedVehicle
 	public required int Wheels { get; set; }
 	[DisplayName("Vehicle Type")]
 	public string? Category { get; set; }
+    [DisplayName("Entry Time")]
 	public DateTime EnteryTime { get; private set; } = DateTime.Now;
 	public DateTime? ExitTime { get; set; }
 
 	[DisplayName("Zone")]
 	public required int GarageZoneId { get; set; }
 	[Range(1,30, ErrorMessage = "There are only 30 spots in this zone!")]
+    [DisplayName("Parking Spot")]
 	public required int SpotNumber { get; set; }
 	[DisplayName("Member")]
-	public int? MemberId { get; set; } = 1;
+	public int? MemberId { get; set; }
 	public int? VehicleTypeId { get; set; }
 
 	// Navigation properties

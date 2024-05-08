@@ -8,11 +8,7 @@ html {
   }
 }
 
-.btn:focus,
-.btn:active:focus,
-.btn-link.nav-link:focus,
-.form-control:focus,
-.form-check-input:focus {
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
@@ -25,39 +21,70 @@ body {
   margin-bottom: 60px;
 }
 
-.Green {
-  filter: invert(36%) sepia(10%) saturate(6716%) hue-rotate(69deg) brightness(97%) contrast(95%);
+footer a {
+    color: black;
+    margin: 0 .5rem;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 5px;
+    text-decoration-skip-ink: none;
+    text-decoration-style: wavy;
+    &:visited {
+        color: black;
+    }
+
+    &:hover {
+        color: darkcyan;
+    }
 }
 
-.Brown {
-  filter: invert(81%) sepia(9%) saturate(994%) hue-rotate(357deg) brightness(88%) contrast(94%);
+.lnks {
+    margin-bottom: 2rem;
+}
+.lnks a {
+    text-decoration: none;
+    border: 1px solid #ccc;
+    padding: .5rem 1.6rem;
+    border-radius: .4rem;
 }
 
-.Red {
-  filter: invert(25%) sepia(96%) saturate(7215%) hue-rotate(358deg) brightness(90%) contrast(115%);
+.btn {
+    margin: 1rem auto;
+    width: 100%;
 }
 
-.Blue {
-  filter: invert(9%) sepia(69%) saturate(6641%) hue-rotate(247deg) brightness(142%) contrast(134%);
+.Green{
+	filter: invert(36%) sepia(10%) saturate(6716%) hue-rotate(69deg) brightness(97%) contrast(95%);
+}
+.Brown{
+	filter: invert(81%) sepia(9%) saturate(994%) hue-rotate(357deg) brightness(88%) contrast(94%);
 }
 
-.Grey {
-  filter: invert(41%) sepia(0%) saturate(1130%) hue-rotate(241deg) brightness(99%) contrast(93%);
+.Red{
+	filter: invert(25%) sepia(96%) saturate(7215%) hue-rotate(358deg) brightness(90%) contrast(115%);
+}
+
+.Blue{
+	filter: invert(9%) sepia(69%) saturate(6641%) hue-rotate(247deg) brightness(142%) contrast(134%);
+}
+
+.Grey{
+	filter: invert(41%) sepia(0%) saturate(1130%) hue-rotate(241deg) brightness(99%) contrast(93%);
 }
 
 
-.Black {
-  filter: invert(0%) sepia(84%) saturate(0%) hue-rotate(144deg) brightness(86%) contrast(100%);
+.Black{
+	filter: invert(0%) sepia(84%) saturate(0%) hue-rotate(144deg) brightness(86%) contrast(100%);
 }
 
-.White {
-  filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(32deg) brightness(105%) contrast(101%);
+.White{
+	filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(32deg) brightness(105%) contrast(101%);
 }
 
-.Silver {
-  filter: invert(84%) sepia(0%) saturate(0%) hue-rotate(327deg) brightness(91%) contrast(95%);
+.Silver{
+	filter: invert(84%) sepia(0%) saturate(0%) hue-rotate(327deg) brightness(91%) contrast(95%);
 }
 
-.Yellow {
-  filter: invert(84%) sepia(51%) saturate(2113%) hue-rotate(343deg) brightness(96%) contrast(101%);
+.Yellow{
+	filter: invert(84%) sepia(51%) saturate(2113%) hue-rotate(343deg) brightness(96%) contrast(101%);
 }

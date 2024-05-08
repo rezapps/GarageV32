@@ -4,7 +4,10 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+
+<div class="lnks">
+    <a asp-action="Index">Back to List</a>
+</div>
 
 <h4>ParkedVehicle</h4>
 <hr />
@@ -20,7 +23,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Color" class="control-label"></label>
-                <select asp-for="Color" class="form-control"></select>
+                <select asp-for="Color" asp-items="@ViewBag.Colors" class="form-control"></select>
                 <span asp-validation-for="Color" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -43,21 +46,17 @@
                 <input asp-for="Wheels" class="form-control" />
                 <span asp-validation-for="Wheels" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @* <div class="form-group">
                 <label asp-for="Category" class="control-label"></label>
                 <input asp-for="Category" class="form-control" />
                 <span asp-validation-for="Category" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            </div> *@
+            @* <div class="form-group">
                 <label asp-for="EnteryTime" class="control-label"></label>
                 <input asp-for="EnteryTime" class="form-control" />
                 <span asp-validation-for="EnteryTime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ExitTime" class="control-label"></label>
-                <input asp-for="ExitTime" class="form-control" />
-                <span asp-validation-for="ExitTime" class="text-danger"></span>
-            </div>
+            </div> *@
+
             <div class="form-group">
                 <label asp-for="GarageZoneId" class="control-label"></label>
                 <select asp-for="GarageZoneId" class="form-control" asp-items="ViewBag.GarageZoneId"></select>
@@ -75,7 +74,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="VehicleTypeId" class="control-label"></label>
-                <select asp-for="VehicleTypeId" class="form-control" asp-items="ViewBag.VehicleTypeId"></select>
+                <select asp-for="VehicleTypeId" class="form-control" asp-items="@ViewBag.VehicleTypeId"></select>
                 <span asp-validation-for="VehicleTypeId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -83,10 +82,6 @@
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GarageV32.Migrations
 {
     [DbContext(typeof(GarageContext))]
-    [Migration("20240508105705_1stCreation")]
+    [Migration("20240508165904_1stCreation")]
     partial class _1stCreation
     {
         /// <inheritdoc />

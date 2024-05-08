@@ -5,7 +5,7 @@
 }
 
 
-<p>
+<p class="lnks">
     <a asp-action="Create">Park a vehicle</a>
 </p>
 <br>
@@ -35,14 +35,12 @@
                 @Html.DisplayNameFor(model => model.ParkedVehicles![0].EnteryTime)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ParkedVehicles![0].VehicleTypeId)
+                @Html.DisplayNameFor(model => model.ParkedVehicles![0].GarageZoneId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ParkedVehicles![0].SpotNumber)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ParkedVehicles![0].GarageZoneId)
-            </th>
+            <th></th>
             <th></th>
         </tr>
     </thead>
@@ -54,25 +52,23 @@
                 @Html.DisplayFor(modelItem => item.RegNr)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Category)
-            </td>
+            <img class="@Html.DisplayFor(modelItem => item.Color) carImage"
+                src="~/img/@(Html.DisplayFor(modelItem => item.Category)).svg"
+                alt="@Html.DisplayFor(modelItem => item.Category)">
+        </td>
             <td>
                 @Html.DisplayFor(modelItem => item.EnteryTime)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.VehicleType.Image)
+                @Html.DisplayFor(modelItem => item.GarageZoneId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.SpotNumber)
             </td>
+ 
             <td>
-                @Html.DisplayFor(modelItem => item.GarageZone.Id)
-            </td>
-  
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+
             </td>
         </tr>
 }

@@ -4,7 +4,10 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<div class="lnks">
+    <a asp-action="Index">Back to Members List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a>
+</div>
 
 <div>
     <h4>Member</h4>
@@ -40,9 +43,34 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.MemberSince)
         </dd>
+        <dt class = "col-sm-4">
+            Parked Vehicles:
+        </dt>
+        <div style="margin-left: 2rem;">
+            <table>
+            <thead>
+                <tr>
+                    <th class="col-sm-3">Registration: </th>
+                    <th class="col-sm-3">Entry Time: </th>
+                    <th class="col-sm-3">Type & Color:</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var vehicle in Model.ParkedVehicles)
+                {
+                    <tr>
+                         <td class="col-sm-3">@vehicle.RegNr</td>
+                        <td class="col-sm-3">@vehicle.EnteryTime</td>
+                         <td class="col-sm-3">
+                            <img class="@vehicle.Color carImage"
+                                src="~/img/@(vehicle.Category).svg"
+                                alt="@vehicle.Category)"
+                            >
+                         </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        </div>
     </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
 </div>

@@ -14,9 +14,10 @@ namespace GarageV32.Data
         {
         }
 
-        public DbSet<GarageV32.Models.ParkedVehicle> ParkedVehicle { get; set; } = default!;
-        public DbSet<GarageV32.Models.VehicleType> VehicleType { get; set; } = default!;
-        public DbSet<GarageV32.Models.Member> Member { get; set; } = default!;
-        public DbSet<GarageV32.Models.GarageZone> GarageZone { get; set; } = default!;
+        public DbSet<ParkedVehicle> ParkedVehicle { get; set; } = default!;
+        public DbSet<VehicleType> VehicleType { get; set; } = default!;
+        public DbSet<Member> Member { get; set; } = default!;
+        public DbSet<GarageZone> GarageZone { get; set; } = default!;
     }
+    
 }
