@@ -167,7 +167,7 @@ namespace GarageV32.Controllers
             {
                 return NotFound();
             }
-
+             parkedVehicle.Category = _context.VehicleType.FirstOrDefault(v => v.Id == parkedVehicle.VehicleTypeId)?.Name ?? string.Empty;
             if (ModelState.IsValid)
             {
                 try
