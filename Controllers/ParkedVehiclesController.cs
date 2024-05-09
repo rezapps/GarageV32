@@ -11,10 +11,13 @@ namespace GarageV32.Controllers
     public class ParkedVehiclesController : Controller
     {
         private readonly GarageContext _context;
+        private readonly ParkingService _parkingService;
 
         public ParkedVehiclesController(GarageContext context)
         {
             _context = context;
+            _parkingService = new ParkingService(context);
+
         }
 
         // GET: ParkedVehicles
@@ -235,6 +238,39 @@ namespace GarageV32.Controllers
         private bool ParkedVehicleExists(int id)
         {
             return _context.ParkedVehicle.Any(e => e.Id == id);
+        }
+        public async Task<IActionResult> CheckOut(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var parkedVehicle = await _context.ParkedVehicle
+                .Include(p => p.GarageZone)
+                .Include(p => p.Member)
+                .Include(p => p.VehicleType)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (parkedVehicle == null)
+            {
+                return NotFound();
+            }
+
+            var invoice = new InvoiceViewModel
+            {
+                RegNr = parkedVehicle.RegNr,
+                MemberId = parkedVehicle.MemberId ?? 0,
+                EntryTime = parkedVehicle.EnteryTime,
+                ExitTime = DateTime.Now,
+                TotalMinutes = _parkingService.CalculateTotalMinutes(parkedVehicle),
+                Fee = _parkingService.CalculateParkingFee(parkedVehicle)
+            };
+
+            parkedVehicle.ExitTime = DateTime.Now;
+            await _context.SaveChangesAsync();
+
+            return View("Invoice", invoice);
         }
     }
 }
