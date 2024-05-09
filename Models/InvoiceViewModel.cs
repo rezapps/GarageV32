@@ -5,6 +5,6 @@ public class InvoiceViewModel
 	public int MemberId { get; set; }
 	public DateTime EntryTime { get; set; }
 	public DateTime ExitTime { get; set; }
-	public double TotalMinutes => (ExitTime - EntryTime).TotalMinutes;
-	public decimal Fee { get; set; }
+    public double TotalMinutes { get; set; }
+    public decimal Fee { get; set; }
 }
