@@ -154,11 +154,11 @@ namespace GarageV32.Controllers
                     AddOccupiedSpot(zone, (int)parkedVehicle.SpotNumber2);
                     AddOccupiedSpot(zone, (int)parkedVehicle.SpotNumber3);
                     break;
-                case "Van" or "Wagon":
+                case "Van":
                     AddOccupiedSpot(zone, parkedVehicle.SpotNumber);
                     AddOccupiedSpot(zone, (int)parkedVehicle.SpotNumber2);
                     break;
-                case "Sedan" or "Hatchback":
+                default:
                     AddOccupiedSpot(zone, parkedVehicle.SpotNumber);
                     break;
             }

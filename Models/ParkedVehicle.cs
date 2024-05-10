@@ -37,7 +37,6 @@ public class ParkedVehicle
 
 	[DisplayName("Zone")]
 	public required int GarageZoneId { get; set; }
-	[Range(1,30, ErrorMessage = "There are only 30 spots in this zone!")]
     [DisplayName("Parking Spot")]
 	public required int SpotNumber { get; set; }
 	public int? SpotNumber2 { get; set; }
@@ -46,7 +45,6 @@ public class ParkedVehicle
 	public int? MemberId { get; set; }
     [DisplayName("Vehicle Type")]
 	public int? VehicleTypeId { get; set; }
-    internal int[]? Spots { get; set; }
 
     // Navigation properties
     public VehicleType? VehicleType { get; set; }
