@@ -90,7 +90,7 @@ footer a {
 }
 
 .White{
-	filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(32deg) brightness(105%) contrast(101%);
+	filter: invert(100%) sepia(0%) saturate(4496%) hue-rotate(315deg) brightness(119%) contrast(92%);
 }
 
 .Silver{
