@@ -4,19 +4,23 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
+<h1>All Zones in Garage</h1>
+<br>
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<br>
 <table class="table">
     <thead>
         <tr>
             <th>
-                 @Html.DisplayNameFor(model => model.Id)
+                @Html.DisplayNameFor(model => model.Capacity)
+            </th>
+            <th >
+                @Html.DisplayNameFor(model => model.ZoneName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Capacity)
+               @Html.DisplayNameFor(model => model.OccupiedSpotsList)
             </th>
             <th></th>
         </tr>
@@ -25,10 +29,22 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Id)
+                @Html.DisplayFor(modelItem => item.Capacity)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Capacity)
+                @Html.DisplayFor(modelItem => item.ZoneName)
+            </td>
+            <td>
+                <div style="height: fit-content; text-align: center; width: 100%;display:flex; flex-wrap: wrap">
+                    @if (item.OccupiedSpotsList != null) {
+                        for (int i = 1; i <= item.Capacity; i++)
+                        {
+                            var isSpotOccupied = item.OccupiedSpotsList.Contains(i) ? "occupied" : "free";
+                            <span style="height: 2.2rem; width: 1.8rem; margin: 0.5rem;" class="@isSpotOccupied">@i</span>
+                        }
+                    }
+
+                </div>
             </td>
             <td>
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a>

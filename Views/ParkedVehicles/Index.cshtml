@@ -8,6 +8,8 @@
 <p class="lnks">
     <a asp-action="Create">Park a vehicle</a>
 </p>
+
+<br>
 <br>
 <form asp-controller="ParkedVehicles" asp-action="Index" method="get">
     <p>
@@ -60,7 +62,7 @@
                 @Html.DisplayFor(modelItem => item.EnteryTime)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.GarageZoneId)
+                @Html.DisplayFor(modelItem => item.GarageZone.ZoneName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.SpotNumber)

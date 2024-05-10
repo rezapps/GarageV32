@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using GarageV32.Data;
 using GarageV32.Models;
 using static GarageV32.Models.ParkedVehicle;
+using System.Linq;
 
 
 namespace GarageV32.Controllers
@@ -29,27 +30,27 @@ namespace GarageV32.Controllers
                 return Problem("Entity set 'GarageContext.ParkedVehicle'  is null.");
             }
 
-           IQueryable<string> categoryQuery = from p in _context.ParkedVehicle
-											   orderby p.Category
-											   select p.Category;
+            IQueryable<string> categoryQuery = from p in _context.ParkedVehicle
+                                               orderby p.Category
+                                               select p.Category;
 
-			var parkedVehicles = from p in _context.ParkedVehicle
-								 select p;
+            var parkedVehicles = from p in _context.ParkedVehicle
+                                 select p;
 
-			if (!String.IsNullOrEmpty(searchString))
-			{
-				parkedVehicles = parkedVehicles.Where(s => s.RegNr.ToUpper().Contains(searchString.ToUpper()));
-			}
-			if (!String.IsNullOrEmpty(VehicleCategory))
-			{
-				parkedVehicles = parkedVehicles.Where(x => x.Category == VehicleCategory);
-			}
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                parkedVehicles = parkedVehicles.Where(s => s.RegNr.ToUpper().Contains(searchString.ToUpper()));
+            }
+            if (!String.IsNullOrEmpty(VehicleCategory))
+            {
+                parkedVehicles = parkedVehicles.Where(x => x.Category == VehicleCategory);
+            }
 
-			var parkedVehiclesVM = new VTypeViewModel
-			{
-				Categories = new SelectList(await categoryQuery.Distinct().ToListAsync()),
-				ParkedVehicles = await parkedVehicles.ToListAsync(),
-			};
+            var parkedVehiclesVM = new VTypeViewModel
+            {
+                Categories = new SelectList(await categoryQuery.Distinct().ToListAsync()),
+                ParkedVehicles = await parkedVehicles.ToListAsync(),
+            };
             return View(parkedVehiclesVM);
         }
 
@@ -74,17 +75,20 @@ namespace GarageV32.Controllers
             return View(parkedVehicle);
         }
 
+
         // GET: ParkedVehicles/Create
         public IActionResult Create()
         {
+
             ViewBag.Colors = new SelectList(Enum.GetValues(typeof(VehicleColor)).Cast<VehicleColor>().Select(static v => new SelectListItem
             {
                 Text = v.ToString(),
                 Value = v.ToString()
             }), "Value", "Text");
-            ViewData["GarageZoneId"] = new SelectList(_context.GarageZone, "Id", "Id");
+            ViewData["GarageZoneId"] = new SelectList(_context.GarageZone, "Id", "ZoneName");
             ViewData["MemberId"] = new SelectList(_context.Member, "Id", "UserName");
             ViewData["VehicleTypeId"] = new SelectList(_context.VehicleType, "Id", "Name");
+
             return View();
         }
 
@@ -93,20 +97,29 @@ namespace GarageV32.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,RegNr,Color,Year,Brand,Model,Wheels,Category,GarageZoneId,SpotNumber,MemberId,VehicleTypeId")] ParkedVehicle parkedVehicle)
+        public async Task<IActionResult> Create([Bind("Id,RegNr,Color,Year,Brand,Model,Wheels,Category,GarageZoneId,Spots,SpotNumber,SpotNumber2,SpotNumber3,MemberId,VehicleTypeId")] ParkedVehicle parkedVehicle)
         {
             if (_context.ParkedVehicle.Any(v => v.RegNr == parkedVehicle.RegNr))
             {
-                ModelState.AddModelError("RegNr", "Registration number must be unique");
+                ModelState.AddModelError("RegNr", "A Vehicle with Registration number already exists. Please check your registration number!.");
             }
 
-            if (_context.ParkedVehicle.Any(v => v.SpotNumber == parkedVehicle.SpotNumber))
+            if (_context.ParkedVehicle.Any(v => v.SpotNumber == parkedVehicle.SpotNumber || v.SpotNumber == parkedVehicle.SpotNumber2 || v.SpotNumber == parkedVehicle.SpotNumber3 && v.GarageZoneId == parkedVehicle.GarageZoneId))
             {
-                ModelState.AddModelError("ParkingSpotNumber", "Spot number is occupied. Please choose another one.");
+                ModelState.AddModelError("SpotNumber", "This spot is occupied. Please choose another one or change the zone.");
                 return View(parkedVehicle);
             }
 
             parkedVehicle.Category = _context.VehicleType.FirstOrDefault(v => v.Id == parkedVehicle.VehicleTypeId)?.Name ?? string.Empty;
+
+            var garageZone = _context.GarageZone.Find(parkedVehicle.GarageZoneId);
+            if (garageZone != null)
+            {
+                UpdateOccupiedSpots(garageZone, parkedVehicle);
+                _context.Update(garageZone);
+            }
+
+
 
             if (ModelState.IsValid)
             {
@@ -114,17 +127,47 @@ namespace GarageV32.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             ViewBag.Colors = new SelectList(Enum.GetValues(typeof(VehicleColor)).Cast<VehicleColor>().Select(static v => new SelectListItem
             {
                 Text = v.ToString(),
                 Value = v.ToString()
             }), "Value", "Text");
-            ViewData["GarageZoneId"] = new SelectList(_context.GarageZone, "Id", "Id", parkedVehicle.GarageZoneId);
+            ViewData["GarageZoneId"] = new SelectList(_context.GarageZone, "Id", "ZoneName", parkedVehicle.GarageZoneId);
+                        ViewData["Spots"] = new SelectList(_context.GarageZone, "Id", "OccupiedSpotsList");
+
             ViewData["MemberId"] = new SelectList(_context.Member, "Id", "UserName", parkedVehicle.MemberId);
             ViewData["VehicleTypeId"] = new SelectList(_context.VehicleType, "Id", "Name", parkedVehicle.VehicleTypeId);
+
             return View(parkedVehicle);
         }
 
+        static void UpdateOccupiedSpots(GarageZone zone, ParkedVehicle parkedVehicle)
+        {
+            switch (parkedVehicle.Category)
+            {
+                case "Truck":
+                    AddOccupiedSpot(zone, parkedVehicle.SpotNumber);
+                    AddOccupiedSpot(zone, (int)parkedVehicle.SpotNumber2);
+                    AddOccupiedSpot(zone, (int)parkedVehicle.SpotNumber3);
+                    break;
+                case "Van" or "Wagon":
+                    AddOccupiedSpot(zone, parkedVehicle.SpotNumber);
+                    AddOccupiedSpot(zone, (int)parkedVehicle.SpotNumber2);
+                    break;
+                case "Sedan" or "Hatchback":
+                    AddOccupiedSpot(zone, parkedVehicle.SpotNumber);
+                    break;
+            }
+        }
+
+        static void AddOccupiedSpot(GarageZone zone, int spotNumber)
+        {
+            if (!zone.OccupiedSpotsList.Contains(spotNumber))
+            {
+                zone.OccupiedSpotsList.Add(spotNumber);
+            }
+        }
 
 
 
@@ -142,12 +185,13 @@ namespace GarageV32.Controllers
             {
                 return NotFound();
             }
+
             ViewBag.Colors = new SelectList(Enum.GetValues(typeof(VehicleColor)).Cast<VehicleColor>().Select(v => new SelectListItem
             {
                 Text = v.ToString(),
                 Value = v.ToString()
             }), "Value", "Text");
-            ViewData["GarageZoneId"] = new SelectList(_context.GarageZone, "Id", "Id", parkedVehicle.GarageZoneId);
+            ViewData["GarageZoneId"] = new SelectList(_context.GarageZone, "Id", "ZoneName", parkedVehicle.GarageZoneId);
             ViewData["MemberId"] = new SelectList(_context.Member, "Id", "UserName", parkedVehicle.MemberId);
             ViewData["VehicleTypeId"] = new SelectList(_context.VehicleType, "Id", "Name", parkedVehicle.VehicleTypeId);
             return View(parkedVehicle);
@@ -158,12 +202,13 @@ namespace GarageV32.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,RegNr,Color,Year,Brand,Model,Wheels,Category,GarageZoneId,SpotNumber,MemberId,VehicleTypeId")] ParkedVehicle parkedVehicle)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,RegNr,Color,Year,Brand,Model,Wheels,Category,GarageZoneId,SpotNumber, SpotNumber2,SpotNumber3,MemberId,VehicleTypeId")] ParkedVehicle parkedVehicle)
         {
             if (id != parkedVehicle.Id)
             {
                 return NotFound();
             }
+            parkedVehicle.Category = _context.VehicleType.FirstOrDefault(v => v.Id == parkedVehicle.VehicleTypeId)?.Name ?? string.Empty;
 
             if (ModelState.IsValid)
             {
@@ -190,7 +235,7 @@ namespace GarageV32.Controllers
                 Text = v.ToString(),
                 Value = v.ToString()
             }), "Value", "Text");
-            ViewData["GarageZoneId"] = new SelectList(_context.GarageZone, "Id", "Id", parkedVehicle.GarageZoneId);
+            ViewData["GarageZoneId"] = new SelectList(_context.GarageZone, "Id", "ZoneName", parkedVehicle.GarageZoneId);
             ViewData["MemberId"] = new SelectList(_context.Member, "Id", "Id", parkedVehicle.MemberId);
             ViewData["VehicleTypeId"] = new SelectList(_context.VehicleType, "Id", "Id", parkedVehicle.VehicleTypeId);
             return View(parkedVehicle);

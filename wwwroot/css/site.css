@@ -88,3 +88,27 @@ footer a {
 .Yellow{
 	filter: invert(84%) sepia(51%) saturate(2113%) hue-rotate(343deg) brightness(96%) contrast(101%);
 }
+
+
+.sn2 {
+    display: none;
+}
+
+.sn3 {
+    display: none;
+}
+
+
+.occupied, .free {
+    border: 1px solid #ccc;
+    padding: 2px 5px;
+}
+
+
+.occupied {
+    color: red;
+}
+
+.free {
+    color: green;
+}

@@ -13,9 +13,9 @@ public class ParkedVehicle
 	public required string RegNr { get; set; }
     public enum VehicleColor
 	{
-		White,
 		Black,
 		Silver,
+        White,
 		Gray,
 		Red,
 		Blue,
@@ -40,12 +40,16 @@ public class ParkedVehicle
 	[Range(1,30, ErrorMessage = "There are only 30 spots in this zone!")]
     [DisplayName("Parking Spot")]
 	public required int SpotNumber { get; set; }
+	public int? SpotNumber2 { get; set; }
+	public int? SpotNumber3 { get; set; }
 	[DisplayName("Member")]
 	public int? MemberId { get; set; }
+    [DisplayName("Vehicle Type")]
 	public int? VehicleTypeId { get; set; }
+    internal int[]? Spots { get; set; }
 
-	// Navigation properties
-	public VehicleType? VehicleType { get; set; }
+    // Navigation properties
+    public VehicleType? VehicleType { get; set; }
 	public GarageZone? GarageZone { get; set; }
 	public Member? Member { get; set; }
 }

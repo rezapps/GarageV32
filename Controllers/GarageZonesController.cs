@@ -54,7 +54,7 @@ namespace GarageV32.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Capacity")] GarageZone garageZone)
+        public async Task<IActionResult> Create([Bind("Id,Capacity,ZoneName,OccupiedSpotsList")] GarageZone garageZone)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace GarageV32.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Capacity")] GarageZone garageZone)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Capacity,ZoneName,OccupiedSpotsList")] GarageZone garageZone)
         {
             if (id != garageZone.Id)
             {

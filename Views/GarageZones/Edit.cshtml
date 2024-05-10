@@ -4,12 +4,9 @@
     ViewData["Title"] = "Edit";
 }
 
+<h1>Edit</h1>
 
-<div class="lnks">
-    <a asp-action="Index">Back to List</a>
-</div>
-
-<h4>Garage Zone</h4>
+<h4>GarageZone</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -22,10 +19,24 @@
                 <span asp-validation-for="Capacity" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="ZoneName" class="control-label"></label>
+                <input asp-for="ZoneName" class="form-control" />
+                <span asp-validation-for="ZoneName" class="text-danger"></span>
+            </div>
+            @* <div class="form-group">
+                <label asp-for="OccupiedSpotsList" class="control-label"></label>
+                <input asp-for="OccupiedSpotsList" class="form-control" />
+                <span asp-validation-for="OccupiedSpotsList" class="text-danger"></span>
+            </div> *@
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
