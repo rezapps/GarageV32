@@ -8,7 +8,22 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/GarageV32.styles.css" asp-append-version="true" />
 </head>
-<body>
+
+
+
+<body style="color-scheme:dark">
+    <div class="form-check form-switch mx-4">
+        <input class="form-check-input p-2"
+               type="checkbox"
+               role="switch"
+               id="flexSwitchCheckChecked"
+               checked
+               onclick="myFunction()" 
+               />
+
+    </div>
+
+
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
@@ -39,10 +54,13 @@
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
+
+
     </div>
 
     <footer class="border-top footer text-muted">
@@ -55,10 +73,23 @@
             <a href="https://github.com/BaraaAlhaib">Albaraa Alhaib</a>
             <a href="https://github.com/rezapps">Yonas Rezaee</a>
         </div>
+  
+
+
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script> 
+    <script>
+        function myFunction() {
+            var element = document.body;
+            element.style.colorScheme =
+                element.style.colorScheme == "light" ? "dark" : "light";
+        }
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
+
+
+
 </body>
 </html>
