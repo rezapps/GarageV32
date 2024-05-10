@@ -8,6 +8,10 @@ html {
   }
 }
 
+.table {
+    color: #fff;
+}
+
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
@@ -19,21 +23,31 @@ html {
 
 body {
     margin-bottom: 60px;
-    background-color: #ffffff;
-    color: #000000;
-
-
+    color: #fff;
+    background-color: #232737;
 }
 
-@media (prefers-color-scheme: dark), (color-scheme: dark) {
-    body {
-        /* Dark mode colors */
-        background-color: #000000;
-        color: #ffffff;
-    }
+footer {
+    padding: 1rem;
 }
 
 footer a {
+    text-decoration: none;
+    margin: 1rem 0.5rem;
+    color: #fff;
+    &:visited {
+        color: #fff;
+    }
+}
+
+/* @media (prefers-color-scheme: dark), (color-scheme: dark) {
+    body {
+        background-color: #000000;
+        color: #ffffff;
+    }
+} */
+
+/* footer a {
     color: black;
     margin: 0 .5rem;
     text-decoration: underline;
@@ -48,7 +62,7 @@ footer a {
     &:hover {
         color: darkcyan;
     }
-}
+} */
 
 .lnks {
     margin-bottom: 2rem;

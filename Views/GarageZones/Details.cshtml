@@ -26,7 +26,12 @@
             @Html.DisplayNameFor(model => model.OccupiedSpotsList)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.OccupiedSpotsList)
+            <ul  style="list-style: none;" >
+                @foreach (var spot in Model.OccupiedSpotsList)
+                {
+                    <li><span>Spot:  @spot</span></li>
+                }
+            </ul>
         </dd>
     </dl>
 </div>
